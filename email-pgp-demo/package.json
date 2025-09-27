@@ -1,0 +1,15 @@
+
+
+{
+  "name": "pgp-email-encryption",
+  "version": "1.0.0",
+  "description": "A web app to demonstrate PGP encryption.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "openpgp": "^5.11.1"
+  }
+}

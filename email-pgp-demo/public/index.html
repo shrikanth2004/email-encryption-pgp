@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PGP Email Encryption Demo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="main-container">
+        <h1>PGP Encryption Demo 🔑</h1>
+
+        <div class="card">
+            <h2>1. Generate Key Pair</h2>
+            <form id="generateForm">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="e.g., Alice" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="e.g., alice@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="passphrase">Passphrase (to protect your private key)</label>
+                    <input type="password" id="passphrase" required>
+                </div>
+                <button type="submit">Generate Keys</button>
+            </form>
+            <div class="output" id="generateOutput"></div>
+        </div>
+
+        <div class="card">
+            <h2>2. Encrypt a Message</h2>
+            <form id="encryptForm">
+                <div class="form-group">
+                    <label for="recipientPublicKey">Recipient's Public Key</label>
+                    <textarea id="recipientPublicKey" placeholder="Paste the recipient's entire public key here..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="plainMessage">Message to Encrypt</label>
+                    <textarea id="plainMessage" placeholder="Your secret message..." required></textarea>
+                </div>
+                <button type="submit">Encrypt</button>
+            </form>
+            <div class="output" id="encryptOutput"></div>
+        </div>
+
+        <div class="card">
+            <h2>3. Decrypt a Message</h2>
+            <form id="decryptForm">
+                <div class="form-group">
+                    <label for="encryptedMessage">Encrypted Message</label>
+                    <textarea id="encryptedMessage" placeholder="Paste the encrypted message here..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="myPrivateKey">Your Private Key</label>
+                    <textarea id="myPrivateKey" placeholder="Paste your entire private key here..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="myPassphrase">Your Passphrase</label>
+                    <input type="password" id="myPassphrase" required>
+                </div>
+                <button type="submit">Decrypt</button>
+            </form>
+            <div class="output" id="decryptOutput"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- Event Listener for Key Generation ---
+        document.getElementById('generateForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const passphrase = document.getElementById('passphrase').value;
+            const outputDiv = document.getElementById('generateOutput');
+
+            try {
+                const response = await fetch('/api/generate-keys', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, passphrase })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    outputDiv.innerHTML = `
+                        <h3>✅ Keys Generated Successfully!</h3>
+                        <p><strong>Save your private key and passphrase somewhere safe. Share your public key openly.</strong></p>
+                        <h4>Public Key:</h4>
+                        <pre>${data.publicKey}</pre>
+                        <h4>Private Key:</h4>
+                        <pre>${data.privateKey}</pre>
+                    `;
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                outputDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        });
+
+        // --- Event Listener for Encryption ---
+        document.getElementById('encryptForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const publicKeyArmored = document.getElementById('recipientPublicKey').value;
+            const message = document.getElementById('plainMessage').value;
+            const outputDiv = document.getElementById('encryptOutput');
+
+            try {
+                const response = await fetch('/api/encrypt', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ publicKeyArmored, message })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    outputDiv.innerHTML = `
+                        <h3>✅ Message Encrypted!</h3>
+                        <p>You can now send this encrypted block to the recipient:</p>
+                        <pre>${data.encryptedMessage}</pre>
+                    `;
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                outputDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        });
+
+        // --- Event Listener for Decryption ---
+        document.getElementById('decryptForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const encryptedMessage = document.getElementById('encryptedMessage').value;
+            const privateKeyArmored = document.getElementById('myPrivateKey').value;
+            const passphrase = document.getElementById('myPassphrase').value;
+            const outputDiv = document.getElementById('decryptOutput');
+
+            try {
+                const response = await fetch('/api/decrypt', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ encryptedMessage, privateKeyArmored, passphrase })
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    outputDiv.innerHTML = `
+                        <h3>✅ Message Decrypted!</h3>
+                        <p>Original Message:</p>
+                        <pre>${data.decryptedMessage}</pre>
+                    `;
+                } else {
+                    throw new Error(data.error);
+                }
+            } catch (error) {
+                outputDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
