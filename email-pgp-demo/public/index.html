@@ -3,162 +3,382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PGP Email Encryption Demo</title>
+    <title>PGP Encryption Demo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="app-container">
+        <header class="mobile-header">
+            <h1 class="mobile-title">PGP Encryption</h1>
+            <button id="menu-toggle" aria-label="Open Menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+        </header>
 
-    <div class="main-container">
-        <h1>PGP Encryption Demo 🔑</h1>
+        <nav class="sidebar">
+            <ul class="nav-list">
+                <li class="nav-item active" data-page="aim">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                    <span>Aim</span>
+                </li>
+                <li class="nav-item" data-page="objective">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    <span>Objective</span>
+                </li>
+                <li class="nav-item" data-page="theory">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <span>Theory</span>
+                </li>
+                <li class="nav-item" data-page="procedure">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>Procedure</span>
+                </li>
+                <li class="nav-item" data-page="simulation">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                    <span>Simulation</span>
+                </li>
+                <li class="nav-item" data-page="assignment">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                    <span>Assignment</span>
+                </li>
+            </ul>
+        </nav>
 
-        <div class="card">
-            <h2>1. Generate Key Pair</h2>
-            <form id="generateForm">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" placeholder="e.g., Alice" required>
+        <main class="content-area">
+            <div id="aim-page" class="page active">
+                <h1 class="page-title">Aim<span></span></h1>
+                <div class="content-box-full aim-box">
+                    <p>The primary aim of this project is to create an interactive, hands-on educational tool that demystifies the core concepts of Pretty Good Privacy (PGP).</p>
+                    <p>By providing a functional simulation, this application seeks to make the complex world of public-key cryptography accessible and understandable, allowing users to actively engage with the entire cryptographic lifecycle—from key creation to secure message exchange.</p>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="e.g., alice@example.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="passphrase">Passphrase (to protect your private key)</label>
-                    <input type="password" id="passphrase" required>
-                </div>
-                <button type="submit">Generate Keys</button>
-            </form>
-            <div class="output" id="generateOutput"></div>
-        </div>
+            </div>
 
-        <div class="card">
-            <h2>2. Encrypt a Message</h2>
-            <form id="encryptForm">
-                <div class="form-group">
-                    <label for="recipientPublicKey">Recipient's Public Key</label>
-                    <textarea id="recipientPublicKey" placeholder="Paste the recipient's entire public key here..." required></textarea>
+            <div id="objective-page" class="page">
+                <h1 class="page-title">Objectives<span></span></h1>
+                <div class="content-box">
+                    <div class="box-number">1</div>
+                    <p><strong>Conceptual Understanding:</strong> To provide a clear, practical understanding of asymmetric cryptography, demonstrating the distinct roles and relationship between a public key (for sharing and encrypting) and a private key (for keeping secret and decrypting).</p>
                 </div>
-                <div class="form-group">
-                    <label for="plainMessage">Message to Encrypt</label>
-                    <textarea id="plainMessage" placeholder="Your secret message..." required></textarea>
+                 <div class="content-box">
+                    <div class="box-number">2</div>
+                    <p><strong>Interactive Key Generation:</strong> To offer a hands-on experience in generating a complete PGP key pair, emphasizing the importance of a strong, unique passphrase for securing the private key against unauthorized access.</p>
                 </div>
-                <button type="submit">Encrypt</button>
-            </form>
-            <div class="output" id="encryptOutput"></div>
-        </div>
+                 <div class="content-box">
+                    <div class="box-number">3</div>
+                    <p><strong>Practical Encryption Simulation:</strong> To simulate the real-world process of encrypting a message, where users can take any plain-text message and transform it into secure, unreadable ciphertext using a recipient's public key.</p>
+                </div>
+                 <div class="content-box">
+                    <div class="box-number">4</div>
+                    <p><strong>Secure Decryption Process:</strong> To illustrate the final step of secure communication by allowing users to decrypt ciphertext, reinforcing the critical and inseparable roles of their private key and passphrase in accessing the original information.</p>
+                </div>
+            </div>
 
-        <div class="card">
-            <h2>3. Decrypt a Message</h2>
-            <form id="decryptForm">
-                <div class="form-group">
-                    <label for="encryptedMessage">Encrypted Message</label>
-                    <textarea id="encryptedMessage" placeholder="Paste the encrypted message here..." required></textarea>
+            <div id="theory-page" class="page">
+                 <h1 class="page-title">Theory<span></span></h1>
+                 <div class="content-box-full">
+                    <h3>What is PGP?</h3>
+                    <p><strong>Pretty Good Privacy (PGP)</strong> is an encryption program that provides cryptographic privacy and authentication for data communication. It is a gold standard for securing information, primarily used for encrypting and decrypting emails, files, and other sensitive data. It is based on <strong>asymmetric (public-key) cryptography</strong>, where each user has two keys: a public key to share with the world, and a private key that is kept secret.</p>
+
+                    <h3>The PGP Process</h3>
+                    <p>The core of PGP revolves around two main functions: encryption and digital signatures.</p>
+                    <ul>
+                        <li><strong>Encryption (for Confidentiality):</strong> To send a secure message to someone, you encrypt it with their <strong>public key</strong>. Once encrypted, the message can only be decrypted by their corresponding <strong>private key</strong>. This ensures that only the intended recipient can read the message.</li>
+                        <li><strong>Digital Signatures (for Authenticity & Integrity):</strong> To prove a message came from you and wasn't altered, you sign it with your <strong>private key</strong>. Anyone can then use your <strong>public key</strong> to verify the signature. If the verification is successful, they know the message is genuinely from you and hasn't been tampered with.</li>
+                    </ul>
+
+                    <h3>Advantages of PGP</h3>
+                     <ul>
+                        <li><strong>Strong Security:</strong> It uses a combination of proven and powerful cryptographic algorithms, making it extremely difficult to break.</li>
+                        <li><strong>Confidentiality and Privacy:</strong> Ensures that data is unreadable to anyone except the intended recipient.</li>
+                        <li><strong>Authentication and Integrity:</strong> Digital signatures verify the sender's identity and ensure the message has not been altered in transit.</li>
+                        <li><strong>Flexibility:</strong> It can be used to encrypt any form of digital data, from emails and instant messages to files and entire hard disks.</li>
+                    </ul>
+
+                    <h3>Limitations of PGP</h3>
+                    <ul>
+                        <li><strong>Complexity:</strong> The concepts of key management can be difficult for beginners to grasp, leading to potential user errors.</li>
+                        <li><strong>Key Management:</strong> The user is responsible for keeping their private key safe. If a private key is lost, all data encrypted with the corresponding public key is irrecoverable.</li>
+                        <li><strong>No Anonymity:</strong> PGP secures the *content* of a message, but it does not hide the metadata (e.g., the sender and recipient's email addresses).</li>
+                    </ul>
+
+                    <h3>Real-World Applications</h3>
+                    <ul>
+                        <li><strong>Secure Email:</strong> Its primary and most well-known use is for end-to-end encryption of email communication, used by journalists, activists, and privacy-conscious individuals.</li>
+                        <li><strong>File Encryption:</strong> Protecting sensitive documents or archives by encrypting them before storing them on a local machine or in the cloud.</li>
+                        <li><strong>Software Distribution:</strong> Developers often sign their software releases with PGP to allow users to verify that the software is authentic and has not been infected with malware.</li>
+                    </ul>
                 </div>
-                <div class="form-group">
-                    <label for="myPrivateKey">Your Private Key</label>
-                    <textarea id="myPrivateKey" placeholder="Paste your entire private key here..." required></textarea>
+            </div>
+
+            <div id="procedure-page" class="page">
+                <h1 class="page-title">Procedure<span></span></h1>
+                <div class="content-box">
+                    <div class="box-number">1</div>
+                    <p><strong>Create Your Digital Identity:</strong> Begin in the "Simulation" tab. In the "Generate Key Pair" section, provide your name and email. Most importantly, create a strong, memorable passphrase. This acts as the password for your private key, providing a crucial final layer of defense. Click "Generate Keys" and be sure to save both the public and private keys in a secure place.</p>
                 </div>
-                <div class="form-group">
-                    <label for="myPassphrase">Your Passphrase</label>
-                    <input type="password" id="myPassphrase" required>
+                <div class="content-box">
+                    <div class="box-number">2</div>
+                    <p><strong>Compose & Encrypt a Message:</strong> To send a confidential message, you first need the recipient's public key. In the "Encrypt a Message" section, paste their entire public key block. Type your secret message in the text area below, then click "Encrypt". The application will use their public key to scramble your message into unreadable ciphertext.</p>
                 </div>
-                <button type="submit">Decrypt</button>
-            </form>
-            <div class="output" id="decryptOutput"></div>
-        </div>
+                <div class="content-box">
+                    <div class="box-number">3</div>
+                    <p><strong>Transmit the Ciphertext:</strong> After encryption, a block of text starting with `-----BEGIN PGP MESSAGE-----` will appear. This is your fully secured message. Copy this entire block and send it to your recipient through any channel (email, chat, etc.). The content is secure even if the channel is not.</p>
+                </div>
+                <div class="content-box">
+                    <div class="box-number">4</div>
+                    <p><strong>Decrypt the Received Message:</strong> When you receive an encrypted message, copy the full ciphertext. Go to the "Decrypt a Message" section and paste it in. Next, provide your own private key that you saved from Step 1. Finally, enter the secret passphrase you created to unlock your private key. Click "Decrypt" to reveal the original, readable message.</p>
+                </div>
+            </div>
+
+            <div id="simulation-page" class="page">
+                <h1 class="page-title">Simulation<span></span></h1>
+                <div class="card">
+                    <h2>1. Generate Key Pair</h2>
+                    <form id="generateForm">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" placeholder="e.g., Alice" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="e.g., alice@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="passphrase">Passphrase (to protect your private key)</label>
+                            <input type="password" id="passphrase" required>
+                        </div>
+                        <button type="submit">Generate Keys</button>
+                    </form>
+                    <div class="output" id="generateOutput"></div>
+                </div>
+                <div class="card">
+                    <h2>2. Encrypt a Message</h2>
+                    <form id="encryptForm">
+                        <div class="form-group">
+                            <label for="recipientPublicKey">Recipient's Public Key</label>
+                            <textarea id="recipientPublicKey" placeholder="Paste the recipient's entire public key here..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="plainMessage">Message to Encrypt</label>
+                            <textarea id="plainMessage" placeholder="Your secret message..." required></textarea>
+                        </div>
+                        <button type="submit">Encrypt</button>
+                    </form>
+                    <div class="output" id="encryptOutput"></div>
+                </div>
+                <div class="card">
+                    <h2>3. Decrypt a Message</h2>
+                    <form id="decryptForm">
+                        <div class="form-group">
+                            <label for="encryptedMessage">Encrypted Message</label>
+                            <textarea id="encryptedMessage" placeholder="Paste the encrypted message here..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="myPrivateKey">Your Private Key</label>
+                            <textarea id="myPrivateKey" placeholder="Paste your entire private key here..." required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="myPassphrase">Your Passphrase</label>
+                            <input type="password" id="myPassphrase" required>
+                        </div>
+                        <button type="submit">Decrypt</button>
+                    </form>
+                    <div class="output" id="decryptOutput"></div>
+                </div>
+            </div>
+
+            <div id="assignment-page" class="page">
+                <h1 class="page-title">Assignment<span></span></h1>
+                <div class="card-full">
+                    <h2>Quiz: Test Your Knowledge</h2>
+                    <form id="quizForm">
+                        <div class="quiz-question">
+                            <p>1. What does PGP stand for?</p>
+                            <div class="quiz-option"><input type="radio" name="q1" id="q1a" value="a"><label for="q1a">Pretty Good Protocol</label></div>
+                            <div class="quiz-option"><input type="radio" name="q1" id="q1b" value="b"><label for="q1b">Pretty Good Privacy</label></div>
+                            <div class="quiz-option"><input type="radio" name="q1" id="q1c" value="c"><label for="q1c">Private General Protocol</label></div>
+                        </div>
+                        <div class="quiz-question">
+                            <p>2. In PGP, which key do you share with others so they can send you encrypted messages?</p>
+                            <div class="quiz-option"><input type="radio" name="q2" id="q2a" value="a"><label for="q2a">Public Key</label></div>
+                            <div class="quiz-option"><input type="radio" name="q2" id="q2b" value="b"><label for="q2b">Private Key</label></div>
+                            <div class="quiz-option"><input type="radio" name="q2" id="q2c" value="c"><label for="q2c">Session Key</label></div>
+                        </div>
+                         <div class="quiz-question">
+                            <p>3. What is the main purpose of the passphrase in PGP?</p>
+                            <div class="quiz-option"><input type="radio" name="q3" id="q3a" value="a"><label for="q3a">To encrypt the message itself</label></div>
+                            <div class="quiz-option"><input type="radio" name="q3" id="q3b" value="b"><label for="q3b">To unlock and use your private key</label></div>
+                            <div class="quiz-option"><input type="radio" name="q3" id="q3c" value="c"><label for="q3c">To act as your public key</label></div>
+                        </div>
+                         <div class="quiz-question">
+                            <p>4. If Alice wants to send a secure message to Bob, which key does Alice use to encrypt the message?</p>
+                            <div class="quiz-option"><input type="radio" name="q4" id="q4a" value="a"><label for="q4a">Alice's Private Key</label></div>
+                            <div class="quiz-option"><input type="radio" name="q4" id="q4b" value="b"><label for="q4b">Bob's Public Key</label></div>
+                            <div class="quiz-option"><input type="radio" name="q4" id="q4c" value="c"><label for="q4c">Bob's Private Key</label></div>
+                        </div>
+                        <div class="quiz-question">
+                            <p>5. What type of cryptography is PGP based on?</p>
+                            <div class="quiz-option"><input type="radio" name="q5" id="q5a" value="a"><label for="q5a">Symmetric Cryptography</label></div>
+                            <div class="quiz-option"><input type="radio" name="q5" id="q5b" value="b"><label for="q5b">Asymmetric Cryptography</label></div>
+                            <div class="quiz-option"><input type="radio" name="q5" id="q5c" value="c"><label for="q5c">Hashing</label></div>
+                        </div>
+                        <button type="submit">Submit Answers</button>
+                    </form>
+                    <div id="quizResult" class="output"></div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
-        // --- Event Listener for Key Generation ---
-        document.getElementById('generateForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const passphrase = document.getElementById('passphrase').value;
-            const outputDiv = document.getElementById('generateOutput');
+        document.addEventListener('DOMContentLoaded', () => {
+            const navItems = document.querySelectorAll('.nav-item');
+            const pages = document.querySelectorAll('.page');
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
 
-            try {
-                const response = await fetch('/api/generate-keys', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, passphrase })
+            // --- SCRIPT FOR PAGE NAVIGATION ---
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const targetPageId = item.dataset.page + '-page';
+                    
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    pages.forEach(page => page.classList.remove('active'));
+                    
+                    item.classList.add('active');
+                    document.getElementById(targetPageId).classList.add('active');
+
+                    // Close sidebar on item click in mobile view
+                    if (window.innerWidth <= 850) {
+                        sidebar.classList.remove('open');
+                    }
                 });
-                const data = await response.json();
+            });
 
-                if (response.ok) {
-                    outputDiv.innerHTML = `
-                        <h3>✅ Keys Generated Successfully!</h3>
-                        <p><strong>Save your private key and passphrase somewhere safe. Share your public key openly.</strong></p>
-                        <h4>Public Key:</h4>
-                        <pre>${data.publicKey}</pre>
-                        <h4>Private Key:</h4>
-                        <pre>${data.privateKey}</pre>
-                    `;
-                } else {
-                    throw new Error(data.error);
+            // --- SCRIPT FOR MOBILE MENU TOGGLE ---
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+            });
+
+            // --- SCRIPT FOR PGP FUNCTIONALITY ---
+            document.getElementById('generateForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const passphrase = document.getElementById('passphrase').value;
+                const outputDiv = document.getElementById('generateOutput');
+                outputDiv.innerHTML = `<p>Generating keys, please wait...</p>`;
+
+                try {
+                    const response = await fetch('/api/generate-keys', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ name, email, passphrase })
+                    });
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        outputDiv.innerHTML = `
+                            <h3>✅ Keys Generated Successfully!</h3>
+                            <p><strong>Save your private key and passphrase somewhere safe. Share your public key openly.</strong></p>
+                            <h4>Public Key:</h4>
+                            <pre>${data.publicKey}</pre>
+                            <h4>Private Key:</h4>
+                            <pre>${data.privateKey}</pre>
+                        `;
+                    } else {
+                        throw new Error(data.error);
+                    }
+                } catch (error) {
+                    outputDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
                 }
-            } catch (error) {
-                outputDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
-            }
-        });
+            });
 
-        // --- Event Listener for Encryption ---
-        document.getElementById('encryptForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const publicKeyArmored = document.getElementById('recipientPublicKey').value;
-            const message = document.getElementById('plainMessage').value;
-            const outputDiv = document.getElementById('encryptOutput');
+            document.getElementById('encryptForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const publicKeyArmored = document.getElementById('recipientPublicKey').value;
+                const message = document.getElementById('plainMessage').value;
+                const outputDiv = document.getElementById('encryptOutput');
+                outputDiv.innerHTML = `<p>Encrypting...</p>`;
 
-            try {
-                const response = await fetch('/api/encrypt', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ publicKeyArmored, message })
-                });
-                const data = await response.json();
+                try {
+                    const response = await fetch('/api/encrypt', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ publicKeyArmored, message })
+                    });
+                    const data = await response.json();
 
-                if (response.ok) {
-                    outputDiv.innerHTML = `
-                        <h3>✅ Message Encrypted!</h3>
-                        <p>You can now send this encrypted block to the recipient:</p>
-                        <pre>${data.encryptedMessage}</pre>
-                    `;
-                } else {
-                    throw new Error(data.error);
+                    if (response.ok) {
+                        outputDiv.innerHTML = `
+                            <h3>✅ Message Encrypted!</h3>
+                            <p>You can now send this encrypted block to the recipient:</p>
+                            <pre>${data.encryptedMessage}</pre>
+                        `;
+                    } else {
+                        throw new Error(data.error);
+                    }
+                } catch (error) {
+                    outputDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
                 }
-            } catch (error) {
-                outputDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
-            }
-        });
+            });
 
-        // --- Event Listener for Decryption ---
-        document.getElementById('decryptForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const encryptedMessage = document.getElementById('encryptedMessage').value;
-            const privateKeyArmored = document.getElementById('myPrivateKey').value;
-            const passphrase = document.getElementById('myPassphrase').value;
-            const outputDiv = document.getElementById('decryptOutput');
+            document.getElementById('decryptForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const encryptedMessage = document.getElementById('encryptedMessage').value;
+                const privateKeyArmored = document.getElementById('myPrivateKey').value;
+                const passphrase = document.getElementById('myPassphrase').value;
+                const outputDiv = document.getElementById('decryptOutput');
+                outputDiv.innerHTML = `<p>Decrypting...</p>`;
 
-            try {
-                const response = await fetch('/api/decrypt', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ encryptedMessage, privateKeyArmored, passphrase })
-                });
-                const data = await response.json();
+                try {
+                    const response = await fetch('/api/decrypt', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ encryptedMessage, privateKeyArmored, passphrase })
+                    });
+                    const data = await response.json();
 
-                if (response.ok) {
-                    outputDiv.innerHTML = `
-                        <h3>✅ Message Decrypted!</h3>
-                        <p>Original Message:</p>
-                        <pre>${data.decryptedMessage}</pre>
-                    `;
-                } else {
-                    throw new Error(data.error);
+                    if (response.ok) {
+                        outputDiv.innerHTML = `
+                            <h3>✅ Message Decrypted!</h3>
+                            <p>Original Message:</p>
+                            <pre>${data.decryptedMessage}</pre>
+                        `;
+                    } else {
+                        throw new Error(data.error);
+                    }
+                } catch (error) {
+                    outputDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
                 }
-            } catch (error) {
-                outputDiv.innerHTML = `<p class="error">Error: ${error.message}</p>`;
-            }
+            });
+
+            // --- SCRIPT FOR QUIZ FUNCTIONALITY ---
+            document.getElementById('quizForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                let score = 0;
+                const totalQuestions = 5;
+                const correctAnswers = {
+                    q1: 'b',
+                    q2: 'a',
+                    q3: 'b',
+                    q4: 'b',
+                    q5: 'b'
+                };
+
+                const formData = new FormData(e.target);
+                for (let [question, userAnswer] of formData.entries()) {
+                    if (correctAnswers[question] === userAnswer) {
+                        score++;
+                    }
+                }
+
+                const resultDiv = document.getElementById('quizResult');
+                resultDiv.innerHTML = `
+                    <h3>Quiz Complete!</h3>
+                    <p>Your final score is <strong>${score}</strong> out of ${totalQuestions}.</p>
+                `;
+            });
         });
     </script>
 </body>
