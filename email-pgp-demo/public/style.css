@@ -1,13 +1,22 @@
 :root {
     --bg-color: #0a0c10;
+    --sidebar-color: #161b22;
     --card-color: #1c1f26;
     --border-color: #2d323b;
     --text-color: #e6f1ff;
     --accent-color: #00aaff;
     --accent-color-glow: rgba(0, 170, 255, 0.25);
+    --active-bg-color: rgba(247, 147, 26, 0.2);
+    --active-border-color: #f7931a;
     --subtle-text-color: #8b949e;
     --success-color: #2ea043;
     --error-color: #f85149;
+    --number-bg-color: #6e40c9;
+    --header-height: 60px;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -15,21 +24,223 @@ body {
     color: var(--text-color);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     margin: 0;
-    padding: 2rem;
+    padding: 0;
+    overflow-x: hidden; /* Prevents scrollbars during animations */
 }
 
-.main-container {
-    max-width: 800px;
-    margin: 0 auto;
+.app-container {
+    display: flex;
+    min-height: 100vh;
 }
 
-h1 {
-    text-align: center;
-    font-weight: 300;
+/* --- Mobile Header --- */
+.mobile-header {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--sidebar-color);
+    padding: 0 1rem;
+    height: var(--header-height);
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1001;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.mobile-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+#menu-toggle {
+    background: none;
+    border: none;
     color: var(--text-color);
-    margin-bottom: 2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: transform 0.2s ease;
+}
+#menu-toggle:hover {
+    transform: scale(1.1);
 }
 
+#menu-toggle svg {
+    width: 28px;
+    height: 28px;
+}
+
+
+/* --- Sidebar Styles --- */
+.sidebar {
+    width: 280px;
+    background-color: var(--sidebar-color);
+    padding: 2rem 1rem;
+    border-right: 1px solid var(--border-color);
+    flex-shrink: 0;
+    transition: transform 0.3s ease-in-out;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--subtle-text-color);
+    border-left: 4px solid transparent;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, border-left-color 0.3s ease;
+}
+
+.nav-item svg {
+    margin-right: 1rem;
+    width: 22px;
+    height: 22px;
+    stroke-width: 1.5;
+    transition: transform 0.2s ease;
+}
+
+.nav-item:hover {
+    background-color: var(--card-color);
+    color: var(--text-color);
+    transform: translateX(5px);
+}
+.nav-item:hover svg {
+    transform: scale(1.1);
+}
+
+.nav-item.active {
+    background: linear-gradient(90deg, var(--active-bg-color) 0%, rgba(31,31,31,0) 100%);
+    box-shadow: 0 0 15px rgba(247, 147, 26, 0.2);
+    border-left: 4px solid var(--active-border-color);
+    color: var(--text-color);
+}
+
+/* --- Content Area Styles --- */
+.content-area {
+    flex-grow: 1;
+    padding: 2rem 4rem;
+    overflow-y: auto;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* --- New Title and Content Box Styles --- */
+.page-title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+    background: linear-gradient(to right, #809cff, #a162ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.page-title span {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, #809cff, #a162ff);
+}
+
+/* --- Content Box Animations --- */
+@keyframes slideUpFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.page.active .content-box,
+.page.active .content-box-full,
+.page.active .card {
+    /* Apply animation when page is active */
+    animation: slideUpFadeIn 0.5s ease-out forwards;
+    opacity: 0; /* Start invisible */
+}
+
+/* Stagger the animations for a nice effect */
+.page.active .content-box:nth-child(2), .page.active .card:nth-child(2) { animation-delay: 0.1s; }
+.page.active .content-box:nth-child(3), .page.active .card:nth-child(3) { animation-delay: 0.2s; }
+.page.active .content-box:nth-child(4), .page.active .card:nth-child(4) { animation-delay: 0.3s; }
+.page.active .content-box:nth-child(5) { animation-delay: 0.4s; }
+
+
+.content-box, .content-box-full {
+    background-color: var(--sidebar-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.content-box {
+    padding-left: 3rem;
+}
+
+.content-box p, .content-box-full p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--subtle-text-color);
+}
+
+.content-box-full p, .content-box-full ul {
+    color: var(--text-color);
+}
+
+.box-number {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 32px;
+    height: 32px;
+    background-color: var(--number-bg-color);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+    font-size: 1rem;
+    color: white;
+    box-shadow: 0 0 10px rgba(110, 64, 201, 0.5);
+}
+
+/* --- Simulation & Assignment Styles --- */
 h2 {
     color: var(--accent-color);
     font-weight: 500;
@@ -39,18 +250,22 @@ h2 {
     margin-bottom: 1.5rem;
 }
 
-.card {
+.card, .card-full {
     background-color: var(--card-color);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 1.5rem 2rem;
     margin-bottom: 2rem;
-    box-shadow: 0 0 20px var(--accent-color-glow);
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-group {
-    margin-bottom: 1.25rem;
+.card:hover, .card-full:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
 }
+
+.form-group { margin-bottom: 1.25rem; }
 
 label {
     display: block;
@@ -75,10 +290,7 @@ textarea {
     transition: all 0.2s ease-in-out;
 }
 
-textarea {
-    resize: vertical;
-    min-height: 120px;
-}
+textarea { resize: vertical; min-height: 120px; }
 
 input:focus, textarea:focus {
     outline: none;
@@ -86,14 +298,11 @@ input:focus, textarea:focus {
     box-shadow: 0 0 10px var(--accent-color-glow);
 }
 
-::placeholder {
-    color: var(--subtle-text-color);
-    opacity: 0.5;
-}
+::placeholder { color: var(--subtle-text-color); opacity: 0.5; }
 
 button {
     background-color: var(--accent-color);
-    color: #0a0c10;
+    color: var(--bg-color);
     border: none;
     border-radius: 6px;
     padding: 12px 20px;
@@ -106,7 +315,8 @@ button {
 
 button:hover {
     background-color: #33c1ff;
-    box-shadow: 0 0 15px var(--accent-color-glow);
+    box-shadow: 0 4px 20px var(--accent-color-glow);
+    transform: translateY(-2px);
 }
 
 .output {
@@ -115,25 +325,10 @@ button:hover {
     border-top: 1px solid var(--border-color);
 }
 
-.output h3 {
-    color: var(--success-color);
-    margin-top: 0;
-}
-
-.output h4 {
-    color: var(--subtle-text-color);
-    margin-bottom: 0.5rem;
-}
-
-.output p {
-    color: var(--subtle-text-color);
-    margin-top: 0;
-}
-
-.output p.error {
-    color: var(--error-color);
-    font-weight: bold;
-}
+.output h3 { color: var(--success-color); margin-top: 0; }
+.output h4 { color: var(--subtle-text-color); margin-bottom: 0.5rem; }
+.output p { color: var(--subtle-text-color); margin-top: 0; }
+.output p.error { color: var(--error-color); font-weight: bold; }
 
 pre {
     background-color: var(--bg-color);
@@ -141,8 +336,74 @@ pre {
     border-radius: 6px;
     border: 1px solid var(--border-color);
     color: var(--text-color);
-    white-space: pre-wrap;      /* Ensures the text wraps */
-    word-wrap: break-word;      /* Older browser support */
-    word-break: break-all;      /* Breaks long strings (keys) */
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-all;
     font-size: 0.9em;
+}
+
+/* --- Quiz Styles --- */
+.quiz-question { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); }
+.quiz-question p { font-weight: 500; font-size: 1.1rem; margin-bottom: 1rem; }
+.quiz-option { display: flex; align-items: center; margin-bottom: 0.75rem; }
+.quiz-option label { margin-left: 0.75rem; font-weight: 400; color: var(--text-color); cursor: pointer; }
+.quiz-option input[type="radio"] { -webkit-appearance: none; appearance: none; background-color: var(--bg-color); margin: 0; font: inherit; color: currentColor; width: 1.15em; height: 1.15em; border: 0.15em solid currentColor; border-radius: 50%; transform: translateY(-0.075em); display: grid; place-content: center; cursor: pointer; }
+.quiz-option input[type="radio"]::before { content: ""; width: 0.65em; height: 0.65em; border-radius: 50%; transform: scale(0); transition: 120ms transform ease-in-out; box-shadow: inset 1em 1em var(--accent-color); }
+.quiz-option input[type="radio"]:checked::before { transform: scale(1); }
+#quizResult { border-top: 1px solid var(--border-color); margin-top: 2rem; padding-top: 1.5rem; }
+#quizResult h3 { color: var(--success-color); }
+#quizResult p { font-size: 1.2rem; color: var(--text-color); }
+
+/* --- Aim Page Specific Styles --- */
+.aim-box {
+    padding: 3rem 2rem;
+    text-align: center;
+    border-color: var(--active-border-color);
+}
+
+.aim-box p {
+    font-size: 1.3rem;
+    line-height: 1.9;
+    color: var(--text-color);
+    max-width: 800px;
+    margin: 0 auto 1.5rem auto;
+}
+
+/* --- RESPONSIVE MEDIA QUERY --- */
+@media (max-width: 850px) {
+    .app-container {
+        flex-direction: column;
+    }
+
+    .mobile-header {
+        display: flex;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 1000;
+        transform: translateX(-100%);
+        border-right: 1px solid var(--border-color);
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 0 0 40px rgba(0,0,0,0.5);
+    }
+
+    .content-area {
+        padding: 1.5rem;
+        margin-top: var(--header-height);
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .aim-box p {
+        font-size: 1.1rem;
+    }
 }
